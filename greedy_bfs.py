@@ -1,5 +1,5 @@
 # setup
-blender = False
+blender = True
 
 if blender:
     import bpy
