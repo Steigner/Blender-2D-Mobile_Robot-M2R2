@@ -5,6 +5,8 @@ As a part of 0MR workshops, this project was carried out to demonstrate the use 
 * Greedy Best-First-Search for path planning
 * Visualisation of the animation result
 
+M2R2 Robot - https://www.youtube.com/watch?v=iX75K9Rfq7E
+
 Visualisation of the blender Scripting development environment:
 
 ![ex](example.png) 
