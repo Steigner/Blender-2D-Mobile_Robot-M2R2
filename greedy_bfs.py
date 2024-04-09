@@ -1,5 +1,5 @@
 # setup
-blender = True
+blender = False
 
 if blender:
     import bpy
@@ -241,7 +241,6 @@ def main():
     for i in range(0, 40):
         ox.append(40.0)
         oy.append(60.0 - i)
-
 
     bestfirstsearch = BestFirstSearchPlanner(ox, oy, grid_size, robot_radius)
     rx, ry = bestfirstsearch.planning(sx, sy, gx, gy)
