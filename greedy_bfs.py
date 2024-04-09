@@ -8,7 +8,6 @@ else:
 
 import math
 
-
 class Node(object):
     def __init__(self, x, y, cost, pind, parent):
         self.x = x
@@ -81,9 +80,21 @@ class BestFirstSearchPlanner(object):
             if len(open_set) == 0:
                 break
 
-            c_id = min(
-                open_set,
-                key=lambda o: self.calc_heuristic(ngoal, open_set[o]))
+            # Initialize variables to track the minimum heuristic value and corresponding key
+            min_heuristic = float('inf')
+            min_key = None
+
+            # Iterate through the items in open_set
+            for key, value in open_set.items():
+                heuristic_value = self.calc_heuristic(ngoal, value)
+                
+                # Update minimum heuristic value and corresponding key if a smaller value is found
+                if heuristic_value < min_heuristic:
+                    min_heuristic = heuristic_value
+                    min_key = key
+
+            # Use the key with the minimum heuristic value
+            c_id = min_key
 
             current = open_set[c_id]
 
@@ -127,8 +138,8 @@ class BestFirstSearchPlanner(object):
 
     def calc_final_path(self, ngoal, closedset):
         # generate final course
-        rx, ry = [self.calc_grid_position(ngoal.x, self.minx)], [
-            self.calc_grid_position(ngoal.y, self.miny)]
+        rx, ry = [self.calc_grid_position(ngoal.x, self.minx)], [self.calc_grid_position(ngoal.y, self.miny)]
+        
         n = closedset[ngoal.pind]
         while n is not None:
             rx.append(self.calc_grid_position(n.x, self.minx))
@@ -179,7 +190,6 @@ class BestFirstSearchPlanner(object):
         return True
 
     def calc_obstacle_map(self, ox, oy):
-
         self.minx = round(min(ox))
         self.miny = round(min(oy))
         self.maxx = round(max(ox))
@@ -187,14 +197,6 @@ class BestFirstSearchPlanner(object):
         self.xwidth = round((self.maxx - self.minx) / self.reso)
         self.ywidth = round((self.maxy - self.miny) / self.reso)
         
-        print("Obstacles: ")
-        print("min_x:", self.minx)
-        print("min_y:", self.miny)
-        print("max_x:", self.maxx)
-        print("max_y:", self.maxy)
-        print("x_width:", self.xwidth)
-        print("y_width:", self.ywidth)
-
         # obstacle map generation
         # Initialize obstacle map with False values
         self.obmap = [[False] * self.ywidth for _ in range(self.xwidth)]
